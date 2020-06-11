@@ -1,0 +1,1 @@
+# Replace default info with info relevant to shared_location
