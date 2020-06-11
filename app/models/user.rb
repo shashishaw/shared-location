@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-	belongs_to :share_location_user
+	has_many :share_locations
+	has_many :share_location_users
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

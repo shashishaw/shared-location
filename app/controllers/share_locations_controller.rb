@@ -2,15 +2,14 @@ class ShareLocationsController < ApplicationController
 
 	def my_shared_location
 		@loc_arr = []
-		share_locations = ShareLocation.includes(:share_location_users).order("id DESC")
+		share_locations = current_user.share_locations.includes(:share_location_users).order("id DESC")
 		if share_locations.present?
 			share_locations.each do |loc|
 				loc_hash = {}
-				users = loc.share_location_users
 				loc_hash['id'] = loc['id']
 				loc_hash['location_url'] = loc['location_url']
 				loc_hash['created_at'] = loc['created_at']
-				loc_hash['user_count'] = users.count
+				loc_hash['user_count'] = loc.share_location_users.count
 				@loc_arr << loc_hash
 			end
 		end
@@ -18,14 +17,14 @@ class ShareLocationsController < ApplicationController
 
 	def other_shared_location
 		@olu_arr = []
-		other_share_locations = ShareLocationUser.where('user_id !=?',current_user.id).order("id DESC")
+		other_share_locations = ShareLocation.joins(:share_location_users).where('share_locations.user_id !=? and share_location_users.user_id = ?',current_user.id,current_user.id).order("id DESC")
 		if other_share_locations.present?
-			other_share_locations.each do |other_share_location|
+			other_share_locations.each do |loc|
 				olu_hash = {}
-					user = other_share_location.user
-					olu_hash['id'] = other_share_location['id']
-					olu_hash['location_url'] = other_share_location.share_location.location_url
-					olu_hash['created_at'] = other_share_location['created_at']
+					user = loc.user
+					olu_hash['id'] = loc['id']
+					olu_hash['location_url'] = loc.location_url
+					olu_hash['created_at'] = loc['created_at']
 					olu_hash['user_name'] = user.name
 					@olu_arr << olu_hash
 			end
