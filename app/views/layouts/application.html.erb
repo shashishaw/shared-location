@@ -23,6 +23,7 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Project</a>
         </div>
+         <% unless action_name == "new" || action_name == "edit" %>
         <ul class="nav navbar-nav">
           <li <%if request[:action] == 'index'%> class="active" <%end%>><%= link_to 'Home', home_path %></li>
           <li <%if request[:action] == 'my_shared_location'%> class="active" <%end%>><%= link_to 'My Shared Location', my_shared_location_path %></li>
@@ -41,6 +42,7 @@
             <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           <% end %>
         </ul>
+       <% end %>
       </div>
     </nav>
     <% if notice %>
