@@ -30,6 +30,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
+            <li class="user">Logged in as : <%= current_user.email %></li>
             <li><a href="/users/edit"><span class="glyphicon glyphicon-user"></span> Edit profile</a></li>
             <li>
               <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
@@ -91,7 +92,10 @@
   background: #1abc9c;
   color: black;
 }
-
+.user{
+  color: white;
+  padding-top: 14px;
+}
 /* Increase the font size of the h1 element */
 .header h1 {
   font-size: 40px;
